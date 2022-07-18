@@ -38,23 +38,34 @@ function game() {
   let computerScore = 0;
 
   for (let i = 0; i < 5; i++) {
+    console.log(`Round ${i + 1}`);
     let playerSelection = prompt('Rock, paper, or scissors?');
-    let computerSelection = computerPlay();
-    let result = playRound(playerSelection, computerSelection);
-    console.log(result);
-    
-    // Increment the player's or computer's score if either player wins
-    if (result.indexOf('You win!') > -1) {
-      playerScore++;
-    } else if (result.indexOf('You lose!') > -1) {
-      computerScore++;
-    } 
-    
-    // if either player has won 3 rounds end the game prematurely
-    if (playerScore === 3 || computerScore === 3) {
-      break;
+
+    if (playerSelection === null) {
+      console.log('You quit the game.');
+      break
+    } else {
+      let computerSelection = computerPlay();
+      let result = playRound(playerSelection, computerSelection);
+      console.log(result);
+      
+      if (result === `You didn't enter a valid selection.`) {
+        i--;
+      }
+
+      // Increment the player's or computer's score if either player wins
+      if (result.indexOf('You win!') > -1) {
+        playerScore++;
+      } else if (result.indexOf('You lose!') > -1) {
+        computerScore++;
+      } 
+      
+      // if either player has won 3 rounds end the game prematurely
+      if (playerScore === 3 || computerScore === 3) {
+        break;
+      }
+      console.log(`Player: ${playerScore} Computer: ${computerScore} \n\n`);
     }
-    console.log(`Player: ${playerScore} Computer: ${computerScore}`);
   }
 
   if (playerScore > computerScore) {
